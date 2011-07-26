@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+
+	<display-name>groovy-book-service</display-name>
+	 
+	<context-param>
+		<param-name>org.everrest.groovy.Application</param-name>
+		<param-value>org.everrest.sample.groovy.BookApplication</param-value>
+	</context-param>
+	<context-param>
+		<param-name>org.everrest.groovy.root.resources</param-name>
+<!-- 		<param-value>file:./src/main/resources/</param-value> -->
+		<param-value>file:./WEB-INF/groovy/</param-value>
+		<!-- FOR STANDALONE WAR UNDER TOMCAT -->
+		<!-- <param-value>jar:file:../webapps/groovy-book-service/WEB-INF/lib/groovy-book-service.jar!/</param-value> -->
+	</context-param>
+	
+	<listener>
+		<listener-class>org.everrest.core.servlet.EverrestInitializedListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.everrest.groovy.servlet.GroovyEverrestInitializedListener</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>EverrestServlet</servlet-name>
+		<servlet-class>org.everrest.core.servlet.EverrestServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EverrestServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+
+
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>Gae_groovy_book_service</servlet-name> -->
+<!-- 		<servlet-class>org.everrest.sample.groovy.Gae_groovy_book_serviceServlet</servlet-class> -->
+<!-- 	</servlet> -->
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>Gae_groovy_book_service</servlet-name> -->
+<!-- 		<url-pattern>/gae_groovy_book_service</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+</web-app>
