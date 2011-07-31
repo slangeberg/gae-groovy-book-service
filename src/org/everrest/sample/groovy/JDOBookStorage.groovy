@@ -20,10 +20,13 @@ class JDOBookStorage {
 
 	private void init()
 	{
-//		def num = numberOfBooks()
-//		if( num == 0 ) {
-//			postBook(new Book(title:'JUnit in Action', author:'Vincent Massol', pages:386, price:19.37))
-//		}
+		def num = numberOfBooks()
+		
+		log.info( "init() numBooks: " + num )
+		
+		if( num == 0 ) {
+			postBook(new Book(title:'JUnit in Action', author:'Vincent Massol', pages:386, price:19.37))
+		}
 	}
 
 	Book getBook(Long id)
@@ -33,13 +36,23 @@ class JDOBookStorage {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Book result
 		try {
-			Query query = pm.newQuery( Book.class ); 
-			query.setFilter("id == ${id}" );
-			List<Book> books = (List<Book>)query.execute();
-			if ( books.size() == 0 )
-				throw new BookNotFoundException(id)
+
+	// Note: This query works fine, but is verbose for fetching record by id
 			
-			result = books.get(0)
+//			Query query = pm.newQuery( Book.class ); 
+//			query.setFilter("id == ${id}" );
+//			List<Book> books = (List<Book>)query.execute();
+//			if ( books.size() == 0 )
+//				throw new BookNotFoundException(id)
+//			
+//			result = books.get(0)
+			
+			result = pm.getObjectById( Book.class, id )
+			
+			log.info( "result: " + result )
+			
+			if ( !result )
+				throw new BookNotFoundException(id)
 			
 		} finally {
 			pm.close();
@@ -73,7 +86,7 @@ class JDOBookStorage {
 		try {
 			Query query = pm.newQuery(Book.class);
 			results = (List<Book>)query.execute();
-			results.size() // bug: force fetch
+			results.size() // bug: must force fetch, else you get nyet
 		} finally {
 			pm.close();
 		}
